@@ -6,3 +6,4 @@ report:
     color: black
     size: A6
 duration: all
+profile: report-qa
