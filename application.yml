@@ -1,10 +1,8 @@
-member:
- rent:
-  min: 8
-  max: 31
- price:
-  discount: 3
-vehicle:
- default:
-  model: cross over
+report:
+  export:
+    type: pdf
+  border: none
+  page:
+    color: white
+    size: A4
 duration: all
