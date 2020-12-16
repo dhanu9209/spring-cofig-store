@@ -1,8 +1,8 @@
 report:
   export:
-    type: pdf
+    type: pdf,excel
   border: none
   page:
-    color: white
+    color: blac
     size: A6
 duration: all
