@@ -1,8 +1,8 @@
 report:
   export:
     type: pdf
-  border: none
+  border: default
   page:
     color: white
     size: A4
-duration: all
+duration: default
