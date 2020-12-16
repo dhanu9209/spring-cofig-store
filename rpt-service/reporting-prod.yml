@@ -1,7 +1,7 @@
 report:
   export:
-    type: pdf,doc
-  border: 1
+    type: pdf,doc,prod
+  border: 5
   page:
     color: white
     size: A4
