@@ -3,6 +3,6 @@ report:
     type: pdf
   border: default
   page:
-    color: white
+    color: main defalut
     size: A4
 duration: default
