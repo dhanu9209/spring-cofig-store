@@ -3,6 +3,6 @@ report:
     type: pdf,excel
   border: none
   page:
-    color: blac
+    color: black
     size: A6
 duration: all
