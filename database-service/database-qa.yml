@@ -1,0 +1,107 @@
+service:
+ fegien:
+    base:
+      url: http://localhost:8002/veh
+ name: feignUserService
+
+feign:
+  client:
+    config:
+      default:
+        readTimeout: 1500
+        connectTimeout: 500
+        
+        
+resilience4j.circuitbreaker:
+    instances:
+#        vehicleService:
+#            registerHealthIndicator: true
+#            slidingWindowSize: 100
+        default:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            permittedNumberOfCallsInHalfOpenState: 3
+            slidingWindowType: TIME_BASED
+            minimumNumberOfCalls: 20
+            waitDurationInOpenState: 50s
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+        feignUserService:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            permittedNumberOfCallsInHalfOpenState: 3
+            slidingWindowType: TIME_BASED
+            minimumNumberOfCalls: 20
+            waitDurationInOpenState: 50s
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+               
+#            recordFailurePredicate: io.github.robwin.exception.RecordFailurePredicate
+resilience4j.retry:
+    instances:
+        default:
+            maxRetryAttempts: 3
+            waitDuration: 10s
+            enableExponentialBackoff: true
+            exponentialBackoffMultiplier: 2
+            retryExceptions:
+                - org.springframework.web.client.HttpServerErrorException
+                - java.io.IOException
+#            ignoreExceptions:
+#                - io.github.robwin.exception.BusinessException
+#        default:
+#            maxRetryAttempts: 3
+#            waitDuration: 10s
+#            retryExceptions:
+#                - org.springframework.web.client.HttpServerErrorException
+#                - java.io.IOException
+#            ignoreExceptions:
+#                - io.github.robwin.exception.BusinessException
+                
+resilience4j.bulkhead:
+    instances:
+        default:
+            maxConcurrentCalls: 10
+        backendB:
+            maxWaitDuration: 100s
+            maxConcurrentCalls: 20
+            
+resilience4j.thread-pool-bulkhead:
+  instances:
+    default:
+      maxThreadPoolSize: 1
+      coreThreadPoolSize: 1
+      queueCapacity: 1
+        
+resilience4j.ratelimiter:
+    instances:
+        default:
+            limitForPeriod: 10
+            limitRefreshPeriod: 1s
+            timeoutDuration: 0
+            registerHealthIndicator: true
+            eventConsumerBufferSize: 100
+#        backendB:
+#            limitForPeriod: 6
+#            limitRefreshPeriod: 500ms
+#            timeoutDuration: 3s
+            
+resilience4j.timelimiter:
+    instances:
+        default:
+            timeoutDuration: 10000ms
+            cancelRunningFuture: true
+        backendB:
+            timeoutDuration: 10000s
+            cancelRunningFuture: false
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: hystrix.stream, health, info, metrics
+  endpoint:
+    health:
+      show-details: always            
+            
+            
